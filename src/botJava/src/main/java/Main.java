@@ -30,12 +30,12 @@ public class Main {
 
             hubConnection.stop();
         }, UUID.class);
-
+        
         hubConnection.on("Registered", (id) -> {
             System.out.println("Registered with the runner " + id);
 
             Position position = new Position();
-            GameObject bot = new GameObject(id, 10, 20, 0, ObjectTypes.PLAYER, position, Effects.val(0),0,0,0,0);
+            GameObject bot = new GameObject(id, 10, 20, 0, ObjectTypes.PLAYER, position, Effects.val(0),1,0,0,0);
             botService.setBot(bot);
         }, UUID.class);
 
@@ -62,9 +62,10 @@ public class Main {
 
         //This is a blocking call
         hubConnection.start().subscribe(() -> {
+            // int toc = 0;
             while (hubConnection.getConnectionState() == HubConnectionState.CONNECTED) {
                 Thread.sleep(20);
-
+                
                 GameObject bot = botService.getBot();
                 if (bot == null) {
                     continue;
@@ -73,11 +74,13 @@ public class Main {
                 botService.getPlayerAction().setPlayerId(bot.getId());
                 botService.computeNextPlayerAction(botService.getPlayerAction());
                 if (hubConnection.getConnectionState() == HubConnectionState.CONNECTED) {
+                    // System.out.println("Toc" + toc);
+                    // toc += 20;
                     hubConnection.send("SendPlayerAction", botService.getPlayerAction());
                 }
             }
         });
-
+        System.out.println("loop breaked");
         hubConnection.stop();
     }
 }

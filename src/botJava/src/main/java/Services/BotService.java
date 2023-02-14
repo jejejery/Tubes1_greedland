@@ -5,6 +5,7 @@ import Models.*;
 
 import java.util.*;
 import java.util.stream.*;
+import java.lang.Math;
 
 public class BotService {
     private GameObject bot;
@@ -18,7 +19,7 @@ public class BotService {
 
 
     public GameObject getBot() {
-        return this.bot;
+        return this.bot; 
     }
 
     public void setBot(GameObject bot) {
@@ -35,8 +36,7 @@ public class BotService {
 
     public void computeNextPlayerAction(PlayerAction playerAction) {
         playerAction.action = PlayerActions.FORWARD;
-        playerAction.heading = new Random().nextInt(360);
-
+        playerAction.heading = (Integer) ((int)Math.random() % 360);
         if (!gameState.getGameObjects().isEmpty()) {
             var foodList = gameState.getGameObjects()
                     .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD)
@@ -48,6 +48,10 @@ public class BotService {
         }
 
         this.playerAction = playerAction;
+    }
+
+    public Integer getHeadingGreedy(){
+        return 10;
     }
 
     public GameState getGameState() {

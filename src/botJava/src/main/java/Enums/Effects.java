@@ -1,6 +1,7 @@
 package Enums;
 
 public enum Effects {
+    NONE(0),
     AFTERBURNER(1),
     ASTEROIDFIELD(2),
     GASCLOUD(4),
