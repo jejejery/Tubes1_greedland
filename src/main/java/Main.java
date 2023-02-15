@@ -1,15 +1,17 @@
 import Enums.*;
 import Models.*;
 import Services.*;
+
 import com.microsoft.signalr.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.time.*;
 import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        Clock clock = Clock.systemDefaultZone();
         Logger logger = LoggerFactory.getLogger(Main.class);
         BotService botService = new BotService();
         String token = System.getenv("Token");
@@ -35,7 +37,7 @@ public class Main {
             System.out.println("Registered with the runner " + id);
 
             Position position = new Position();
-            GameObject bot = new GameObject(id, 10, 20, 0, ObjectTypes.PLAYER, position, Effects.val(0),1,0,0,0);
+            GameObject bot = new GameObject(id, 10, 20, 0, ObjectTypes.PLAYER, position, Effects.val(0),0,0,0,0);
             botService.setBot(bot);
         }, UUID.class);
 
@@ -63,6 +65,10 @@ public class Main {
         //This is a blocking call
         hubConnection.start().subscribe(() -> {
             // int toc = 0;
+            // long runtime = 0;
+            // int startHeading = botService.getPlayerAction().heading;
+            // boolean state = false;
+            long t_debug = clock.millis();
             while (hubConnection.getConnectionState() == HubConnectionState.CONNECTED) {
                 Thread.sleep(20);
                 
@@ -74,9 +80,19 @@ public class Main {
                 botService.getPlayerAction().setPlayerId(bot.getId());
                 botService.computeNextPlayerAction(botService.getPlayerAction());
                 if (hubConnection.getConnectionState() == HubConnectionState.CONNECTED) {
-                    // System.out.println("Toc" + toc);
-                    // toc += 20;
                     hubConnection.send("SendPlayerAction", botService.getPlayerAction());
+                }
+                
+                // if(botService.getPlayerAction().heading != startHeading & !state){
+                //     state = true;
+                //     t_debug = clock.millis();
+                //     // runtime = t_debug-clock.millis();
+                //     // System.out.println("Run-time:" + (float)runtime/1000 + "s");
+                // } 
+
+                if(clock.millis() - t_debug > 50 && (botService.getGameState().getWorld().getCurrentTick() != null && botService.getGameState().getWorld().getCurrentTick() != 0)){
+                    botService.debugAtributeBot();
+                    t_debug = clock.millis();
                 }
             }
         });

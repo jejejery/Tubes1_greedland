@@ -1,23 +1,26 @@
 package Services;
-
 import Enums.*;
 import Models.*;
+import io.reactivex.functions.Predicate;
 
 import java.util.*;
 import java.util.stream.*;
-import java.lang.Math;
 
-public class BotService {
+interface thePredicate {
+    GameObject test(GameObject go);
+ }
+public class greedy {
     private GameObject bot;
     private PlayerAction playerAction;
     private GameState gameState;
 
-    public BotService() {
-        this.playerAction = new PlayerAction();
-        this.gameState = new GameState();
+    public greedy(GameObject bot, PlayerAction playerAction, GameState gameState){
+        this.bot = bot;
+        this.playerAction = playerAction;
+        this.gameState = gameState;
     }
 
-
+    //Setter Getter
     public GameObject getBot() {
         return this.bot; 
     }
@@ -34,26 +37,6 @@ public class BotService {
         this.playerAction = playerAction;
     }
 
-    public void computeNextPlayerAction(PlayerAction playerAction) {
-        playerAction.action = PlayerActions.FORWARD;
-        playerAction.heading = (Integer) ((int)Math.random() % 360);
-        if (!gameState.getGameObjects().isEmpty()) {
-            var foodList = gameState.getGameObjects()
-                    .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD)
-                    .sorted(Comparator
-                            .comparing(item -> getDistanceBetween(bot, item)))
-                    .collect(Collectors.toList());
-
-            playerAction.heading = getHeadingBetween(foodList.get(0));
-        }
-
-        this.playerAction = playerAction;
-    }
-
-    public Integer getHeadingGreedy(){
-        return 10;
-    }
-
     public GameState getGameState() {
         return this.gameState;
     }
@@ -63,26 +46,36 @@ public class BotService {
         updateSelfState();
     }
 
+
     private void updateSelfState() {
         Optional<GameObject> optionalBot = gameState.getPlayerGameObjects().stream().filter(gameObject -> gameObject.id.equals(bot.id)).findAny();
         optionalBot.ifPresent(bot -> this.bot = bot);
     }
 
-    private double getDistanceBetween(GameObject object1, GameObject object2) {
+    public double getDistanceBetween(GameObject object1, GameObject object2) {
         var triangleX = Math.abs(object1.getPosition().x - object2.getPosition().x);
         var triangleY = Math.abs(object1.getPosition().y - object2.getPosition().y);
         return Math.sqrt(triangleX * triangleX + triangleY * triangleY);
     }
 
-    private int getHeadingBetween(GameObject otherObject) {
+
+    public double getEdgeDistanceBetween(GameObject object1, GameObject object2) { //jarak antar gameobject dari tepi ke tepi
+        double centerDistance = getDistanceBetween(object1, object2);
+        if(centerDistance - object1.getSize() - object2.getSize() < 0) return 0;
+        else return centerDistance - object1.getSize() - object2.getSize();
+    }
+
+    public int getHeadingBetween(GameObject otherObject) {
         var direction = toDegrees(Math.atan2(otherObject.getPosition().y - bot.getPosition().y,
                 otherObject.getPosition().x - bot.getPosition().x));
         return (direction + 360) % 360;
     }
 
-    private int toDegrees(double v) {
-        return (int) (v * (180 / Math.PI));
+    public boolean isInRangeHeading(int theHeading, int constraint_lower, int constraint_upper){
+        return constraint_lower > constraint_upper ? (constraint_lower < 360 && constraint_upper >= 0 && theHeading > constraint_lower && theHeading > constraint_upper) : (theHeading > constraint_lower && theHeading < constraint_upper);
     }
 
-
+    public int toDegrees(double v) {
+        return (int) (v * (180 / Math.PI));
+    }
 }

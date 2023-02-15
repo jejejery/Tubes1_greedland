@@ -58,6 +58,10 @@ public class GameObject {
     return position;
   }
 
+  public int getTheEffects(){
+    return this.theEffects;
+  }
+
   public void setPosition(Position position) {
     this.position = position;
   }
@@ -81,5 +85,18 @@ public class GameObject {
     return new GameObject(id, stateList.get(0), stateList.get(1), stateList.get(2), ObjectTypes.valueOf(stateList.get(3)), position, Effects.val(0) ,0,0,0,0);
 
     }
+  }
+
+  public void debug(){
+    System.out.println("Size: " + this.size);
+    System.out.println("Speed: " + this.speed);
+    System.out.println("CurrentHeading: " + this.currentHeading);
+    System.out.println("Position.x: " + this.position.x);
+    System.out.println("Position.y: " + this.position.y);
+    System.out.println("Effects: " + this.theEffects);
+    System.out.println("TorpedoSalvoCount: " + this.TorpedoSalvoCount);
+    System.out.println("SupernovaAvailable: " + this.SupernovaAvailable);
+    System.out.println("TeleporterCount: " + this.TeleporterCount);
+    System.out.println("ShieldCount: " + this.ShieldCount);
   }
 }

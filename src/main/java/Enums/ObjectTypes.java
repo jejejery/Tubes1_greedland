@@ -24,6 +24,6 @@ public enum ObjectTypes {
       if (objectType.value == value) return objectType;
     }
 
-    throw new IllegalArgumentException("Value not found");
+    throw new IllegalArgumentException("Value not found wkwkwkk");
   }
 }
