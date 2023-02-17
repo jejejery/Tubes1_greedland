@@ -60,7 +60,7 @@ public class Main {
 
         Thread.sleep(1000);
         System.out.println("Registering with the runner...");
-        hubConnection.send("Register", token, "Poke bot");
+        hubConnection.send("Register", token, "Greedland");
 
         //This is a blocking call
         hubConnection.start().subscribe(() -> {
@@ -83,14 +83,8 @@ public class Main {
                     hubConnection.send("SendPlayerAction", botService.getPlayerAction());
                 }
                 
-                // if(botService.getPlayerAction().heading != startHeading & !state){
-                //     state = true;
-                //     t_debug = clock.millis();
-                //     // runtime = t_debug-clock.millis();
-                //     // System.out.println("Run-time:" + (float)runtime/1000 + "s");
-                // } 
 
-                if(clock.millis() - t_debug > 50 && (botService.getGameState().getWorld().getCurrentTick() != null && botService.getGameState().getWorld().getCurrentTick() != 0)){
+                if(clock.millis() - t_debug > 75 && (botService.getGameState().getWorld().getCurrentTick() != null && botService.getGameState().getWorld().getCurrentTick() != 0)){
                     botService.debugAtributeBot();
                     t_debug = clock.millis();
                 }

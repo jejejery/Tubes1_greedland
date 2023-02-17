@@ -1,4 +1,5 @@
 package Models;
+import java.math.*;
 
 public class Position {
 
@@ -30,4 +31,5 @@ public class Position {
   public void setY(int y) {
     this.y = y;
   }
+
 }

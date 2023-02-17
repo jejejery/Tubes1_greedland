@@ -58,6 +58,10 @@ public class greedy {
         return Math.sqrt(triangleX * triangleX + triangleY * triangleY);
     }
 
+    public double getEuclidianDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+    }
+
 
     public double getEdgeDistanceBetween(GameObject object1, GameObject object2) { //jarak antar gameobject dari tepi ke tepi
         double centerDistance = getDistanceBetween(object1, object2);
@@ -72,8 +76,16 @@ public class greedy {
     }
 
     public boolean isInRangeHeading(int theHeading, int constraint_lower, int constraint_upper){
-        return constraint_lower > constraint_upper ? (constraint_lower < 360 && constraint_upper >= 0 && theHeading > constraint_lower && theHeading > constraint_upper) : (theHeading > constraint_lower && theHeading < constraint_upper);
+        
+        if(constraint_lower > constraint_upper){
+            if(theHeading < 360) return constraint_lower <= theHeading && theHeading >= constraint_upper;
+            else return constraint_lower >= theHeading && theHeading <= constraint_upper;
+        }
+        else return constraint_lower <= theHeading && theHeading <= constraint_upper;
+        // return constraint_lower > constraint_upper ? (constraint_lower < 360 && constraint_upper >= 0 && theHeading > constraint_lower && theHeading > constraint_upper) : (theHeading > constraint_lower && theHeading < constraint_upper);
     }
+    
+
 
     public int toDegrees(double v) {
         return (int) (v * (180 / Math.PI));

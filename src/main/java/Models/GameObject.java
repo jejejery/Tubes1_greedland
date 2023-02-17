@@ -30,6 +30,7 @@ public class GameObject {
     this.ShieldCount = ShieldCount;
   }
 
+  //getter setter
   public UUID getId() {
     return id;
   }
@@ -72,6 +73,46 @@ public class GameObject {
 
   public void setGameObjectType(ObjectTypes gameObjectType) {
     this.gameObjectType = gameObjectType;
+  }
+
+  public Integer getEffects() {
+    return this.theEffects;
+  }
+
+  public void setEffect(Integer eff) {
+    this.theEffects = eff;
+  }
+
+  public Integer getTorpedoSalvoCount() {
+    return this.TorpedoSalvoCount;
+  }
+
+  public void setTorpedoSalvoCount(Integer t) {
+    this.TorpedoSalvoCount = t;
+  }
+
+  public Integer getSupernovaAvailable() {
+    return this.SupernovaAvailable;
+  }
+
+  public void setSupernovaAvailable(Integer t) {
+    this.SupernovaAvailable = t;
+  }
+
+  public Integer getTeleporterCount() {
+    return this.TeleporterCount;
+  }
+
+  public void setTeleporterCount(Integer tc) {
+    this.TeleporterCount = tc;
+  }
+
+  public Integer getShieldCount() {
+    return this.ShieldCount;
+  }
+
+  public void setShieldCount(Integer sc) {
+    this.ShieldCount = sc;
   }
 
   public static GameObject FromStateList(UUID id, List<Integer> stateList)

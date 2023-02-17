@@ -59,64 +59,45 @@ public class BotService {
         3. Cari Makan by Size Growth Rate
         */
 
-        // pa.action = PlayerActions.STOP;
-        // pa.heading = 0;
-        // this.playerAction = pa;
+        // if(pa.getAction() == PlayerActions.STARTAFTERBURNER) System.out.println("hehe");
         pa.action =PlayerActions.FORWARD;
         pa.heading = new Random().nextInt(360);
 
-        // if (!gameState.getGameObjects().isEmpty()) {
-        //     var foodList = gameState.getGameObjects()
-        //             .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD)
-        //             .sorted(Comparator
-        //                     .comparing(item -> getDistanceBetween(bot, item)))
-        //             .collect(Collectors.toList());
-
-        //     playerAction.heading = getHeadingBetween(foodList.get(0));
-        // }
         
         greed1.setGameState(this.gameState);
         greed2.setGameState(this.gameState);
         greed3.setGameState(this.gameState);
+
+        greed1.setBot(this.bot);
+        greed2.setBot(this.bot);
+        greed3.setBot(this.bot);
     
         if(greed1.isDeffensive()){
+            
             this.playerAction = greed1.updatePlayerAction(pa);
+            if(this.playerAction.action == PlayerActions.STARTAFTERBURNER) this.playerAction.action = PlayerActions.STOPAFTERBURNER;
         } 
         else{
             if(greed2.isEnemyNear()) this.playerAction = greed2.updatePlayerAction(pa);
-            else this.playerAction = greed3.updatePlayerAction(pa);
+            else{
+                 this.playerAction = greed3.updatePlayerAction(pa);
+                 if(this.playerAction.action == PlayerActions.STARTAFTERBURNER) playerAction.action = PlayerActions.STOPAFTERBURNER;
+            }
         }
         
-        greed3.setGameState(this.gameState);
-        this.playerAction = greed3.updatePlayerAction(pa);
         
     }
-
+    //Polar coordinate
+   
 
     public void debugAtributeBot(){
-                // var BotList = gameState.getGameObjects()
-                //     .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD)
-                //     .collect(Collectors.toList());
-                // System.out.println("Banyak Food: " + BotList.size());
-
-                // var GameObjectList = gameState.getGameObjects()
-                //     .stream().collect(Collectors.toList());
-                // System.out.println("Tipe GameObjects: [");
-                // for(int i = 0; i < GameObjectList.size(); i++){
-                //     if(i == 0) System.out.print(GameObjectList.get(i).gameObjectType);
-                //     else System.out.print("," + GameObjectList.get(i).gameObjectType);
-                // }
-                // System.out.println("]");
-                // var BotList = this.gameState.getPlayerGameObjects();
-                // for(int i = 0; i < BotList.size(); i++){
-                //     System.out.println("Bots ID: " + BotList.get(i).getId());
-                // }
                 System.out.println("===================================");
                 System.out.println("Tic Now:" + getGameState().getWorld().getCurrentTick());
                 System.out.println("current greedy strategy: " +(greed1.isDeffensive() ? "defensive" : (greed2.isEnemyNear() ? "offensive" : "greedy by growth rate")));
                 System.out.println("===================================");
-                // greed2.debug();
-                // greed3.debug();
+                if(greed1.isDeffensive())greed1.debug();
+                else if(greed2.isEnemyNear())greed2.debug();
+                else greed3.debug();
                 System.out.println("===================================");
                 this.bot.debug();
                 System.out.println("===================================");

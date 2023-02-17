@@ -18,7 +18,8 @@ public class greedyByEW extends greedy{
     }
 
     public PlayerAction updatePlayerAction(PlayerAction playerAction){
-        playerAction.action = PlayerActions.FORWARD;
+        if(playerAction.action == PlayerActions.STARTAFTERBURNER) playerAction.action = PlayerActions.STOPAFTERBURNER; //Saat defensif, harus mematikan
+        else playerAction.action = PlayerActions.FORWARD; //Default
         if (!getGameState().getGameObjects().isEmpty()) {
             var foodList = getGameState().getGameObjects()
                     .stream().filter(item -> item.getGameObjectType() == ObjectTypes.FOOD || item.getGameObjectType() == ObjectTypes.SUPERFOOD)
@@ -39,8 +40,7 @@ public class greedyByEW extends greedy{
         System.out.println("Jarak Makanan Terdekat: " + this.nearestFood);
         System.out.println("Jenis Makanan Terdekat: " + this.typeFood);
         System.out.println("ID Makanan: " + this.theID);
-        System.out.println("Debug bot in greedy3: ");
-        this.getBot().debug();
+
     }
     
 }
