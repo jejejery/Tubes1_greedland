@@ -1,5 +1,6 @@
 # TUGAS BESAR STIMA 1 KELOMPOK GREEDLAND
-## Identitas Kelompok
+
+## The Author
 | NO | NAMA | NIM |
 --- | --- | --- |
 | 1 | Yobel Dean Christoper | 13521067 |
@@ -18,3 +19,11 @@ Tugas Besar ini Merupakan Implementasi Algoritma Greedy yang Kami pelajari di ke
 - Apabila ingin menggunakan bot modifikasi yang telah kami buat, silakan menggunakan file .jar yang ada di folder target/[namabot]/[namabot].jar
 - Apabila ingin memodifikasi file source code kami dan mengkompilasi menjadi file .jar baru untuk membuat bot modifikasi yang baru, gunakan terminal dan ketik perintah "mvn clean package"
 - Jalankan game melalui file "run.bat" yang telah dimodifikasi. Enjoy the Galaxio! :)
+
+## Tentang Gim dan Algoritmanya
+Algoritma greedy merupakan strategi dimana memecahkan permasalahan optimasi, dengan menggunakan teknik optimasi yang sesuai untuk mencapai optimum global melalui solusi optimum lokal(diharapkan konvergen menuju optimum global). Kami menggunakan algoritma greedy berdasarkan teknik heruistik sehingga melahirkan beberapa kandidat yang akan bisa diimplementasikan pada gim ini.
+
+Galaxio merupakan gim bertahan, menggunakan bot untuk mencari makanan dan menaklukan musuh yang lebih kecil. Kami memutuskan untuk menggunakan 3 pendekatan heuistik greedy sebagai berikut:
+1. _Defensive Greedy _
+2. _Offensive Greedy _
+3. _Greedy by Growth Rate_
